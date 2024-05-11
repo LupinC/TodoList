@@ -48,11 +48,33 @@ export default function App(){
     // to check console.log(todos)
 
 
-
-
-
+    setNewItem("")
   }
 
+  // any time you wnat to change a state, create a brand new thing like todos so that you are not mutating the current states
+  function toggleTodo(id, completed){
+    setTodos(currentTodos => {
+      return currentTodos.map(
+        todo=> {
+          if (todo.id === id) {
+            // dont do todo.id.completed = completed
+            return { ...todo, completed}
+          }
+
+          return todo
+        }
+      )
+    })
+  }
+
+  function deleteTodo(id){
+    setTodos( currentTodos =>{
+      // same => remove, not the same => keep
+      return currentTodos.filter(todo => todo.id != id)
+    }
+
+    )
+  }
 
 
 
@@ -77,14 +99,26 @@ export default function App(){
      {/* list */}
     <ul className="list">
       {/* in {} means runs as javascript codes and put it down below */}
-      {todos.map} 
-      <li>
-        <label>
-          <input type="checkbox" />
-          Item 1
-        </label>
-        <button className="btn btn-danger">Delete</button>
-      </li>
+      {/* if there is no to dos, show the strings of no todos, ie short circuiting */}
+      {todos.length ===0 && "No Todos"}
+      {todos.map(todo => {
+        return (
+          // each element at top should have a unique property
+          // because sometimes I only want to edit or change particular one of the todos
+        <li key={todo.id}>
+          <label>
+            <input type="checkbox" 
+            checked={todo.completed}
+            onChange={e => toggleTodo(todo.id, e.target.checked())}/>
+            {todo.title}
+          </label>
+          <button 
+            // !!! do not remove the ()= the function calling
+            onClick={()=> deleteTodo(todo.id)}
+            className="btn btn-danger">Delete</button>
+      </li>)
+      })} 
+
     </ul>
   </>
   )
