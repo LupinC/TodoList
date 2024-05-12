@@ -1,37 +1,27 @@
-import { useState } from "react"
+import React, { useState } from 'react';
 
-
-export function NewTodoForm({onSubmit}){
+const NewTodoForm = ({ addTodo }) => {
   // to make it a property   ^, and we need {}
-  // newItem-> array
-  // setNewItem -> function
-  // new item is a state variable that you cannot update
-  const [newItem, setNewItem] = useState("")
-  // setNewItem() here will cause an infinite loop, it will be called to render the whole page blow again and again
+  const [title, setTitle] = useState('');
 
-    function handleSubmit(e){
-        e.preventDefault()//prevent page from refreshing
-    
-        if (newItem === "") return
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addTodo(title);
+    setTitle('');
+  };
 
-        onSubmit(newItem)
-    
-        // to check: console.log(todos)
-        setNewItem("")
-      }
-
-
-    return (    
-    <form onSubmit = {handleSubmit} className="new-item-form">
-        <div className="row">
-            <label htmlFor="item">New Item</label>
-            <input 
-                value={newItem} 
-                onChange={e => setNewItem(e.target.value)}
-                type="text" 
-                id="item"/>
-            </div>
-        <button className="btn">add</button>
+  return (
+    <form onSubmit={handleSubmit} className='new-item-form'>
+      <input
+        type="text"
+        placeholder="New Todo"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <button className= "btn" type="submit">Add</button>
     </form>
-  )
-}
+  );
+};
+
+export default NewTodoForm;

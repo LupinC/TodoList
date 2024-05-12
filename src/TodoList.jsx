@@ -1,24 +1,21 @@
-import { TodoItem } from "./TodoItem"
+import React from 'react';
+import TodoItem from './TodoItem';
 
-export function TodoList({todos, toggleTodo, deleteTodo}) {
-    return(
-        <ul className="list">
-            {/* in {} means runs as javascript codes and put it down below */}
-            {/* if there is no to dos, show the strings of no todos, ie short circuiting */}
-            {todos.length ===0 && "No Todos"}
-            {todos.map(todo => {
-            return (
-                <TodoItem 
-                    // line 13 = line 14+15+16
-                    {...todo}
-                    // id = {todo.id} 
-                    // completed={todo.completed} 
-                    // title = {todo.title}
-                    key={todo.id} 
-                    toggleTodo={toggleTodo}
-                    deleteTodo={deleteTodo}
-                />)
-            })} 
-        </ul>
-    )
-}
+const TodoList = ({ todos, updateTodo, deleteTodo }) => {
+  {/* in {} means runs as javascript codes and put it down below */}
+  {/* if there is no to dos, show the strings of no todos, ie short circuiting */}
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          updateTodo={updateTodo}
+          deleteTodo={deleteTodo}
+        />
+      ))}
+    </ul>
+  );
+};
+
+export default TodoList;
