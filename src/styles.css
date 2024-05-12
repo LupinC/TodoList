@@ -20,6 +20,7 @@ body {
 }
 
 .new-item-form {
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -58,12 +59,15 @@ body {
 }
 
 .new-item-form input {
+  align-self: start;
   outline: none;
   border: 1px solid hsl(200, 100%, 40%);
   background: hsl(200, 100%, 30%);
   border-radius: 0.25em;
   padding: 0.25em 0.5em;
   color: hsl(200, 100%, 90%);
+  margin-top: 10%;
+  margin-bottom: 5%;
 }
 
 .new-item-form input:focus {
@@ -145,4 +149,43 @@ body {
 
 .list li:has(input:checked) label:hover::before {
   background: hsl(200, 100%, 30%);
+}
+
+
+
+.button {
+  display: block;
+  width: max-content;
+  background-color: #cd03ff; 
+  color: #fff;
+  border: none;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.button:hover {
+  background-color: #0056b3; 
+}
+
+
+.todo-item {
+  margin-top: 10%;
+  list-style-type: none;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-left: -12%;
+}
+
+.todo-label {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.todo-checkbox {
+  margin-right: 8px;
 }

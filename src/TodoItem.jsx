@@ -1,20 +1,30 @@
-export function TodoItem({completed, id, title, toggleTodo, deleteTodo}){
-    return(
-        // each element at top should have a unique property
-        // because sometimes I only want to edit or change particular one of the todos
-        <li >
-            <label>
-                <input  type="checkbox" 
-                        checked={completed}
-                        onChange={e => toggleTodo(id, e.target.checked)}
-                />
-                {title}
-            </label>
-            <button 
-                // !!! do not remove the ()= the function calling
-                onClick={()=> deleteTodo(id)}
-                className="btn btn-danger">Delete
-            </button>  
-        </li>
-    )
-}
+import React from 'react';
+import "./styles.css"
+
+const TodoItem = ({ todo, updateTodo, deleteTodo }) => {
+  const toggleComplete = (completed) => {
+    updateTodo(todo.id, { completed });
+  };
+
+  return (
+    <li className='todo-item'>
+      <label className='todo-label'>
+        <input
+          type="checkbox"
+          className='todo-checkbox'
+          checked={todo.completed}
+          onChange={(e) => toggleComplete(e.target.checked)}
+        />
+        {todo.title}
+      </label>
+      <button 
+        // !!! do not remove the ()= the function calling
+        onClick={() => deleteTodo(todo.id)}
+        className="btn btn-danger">
+        Delete
+      </button>
+    </li>
+  );
+};
+
+export default TodoItem;
