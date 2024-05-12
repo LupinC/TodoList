@@ -2,15 +2,27 @@ import { NewTodoForm } from "./NewTodoForm"
 import { TodoList } from "./TodoList"
 import "./styles.css"
 // takes in user value
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 
 // this is a componenet
 export default function App(){
 
+  const [todos, setTodos] = useState(()=>{
+    const localvalue = localStorage.getItem("Items")
+    if (localvalue == null) return[]
 
-  const [todos, setTodos] = useState([])
+    return JSON.parse(localvalue)
+  })
+
+  // run this function every time the property in the array changes
+  // cannot render hooks conditionally
+  // so put them at the top
+  useEffect(() =>{
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
+
 
   function addTodo(title){
         // if we have 2 settodos, it will only add one todolist
