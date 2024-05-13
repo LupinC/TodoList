@@ -1,9 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-
-// any time you wnat to change a state, create a brand new thing like todos so that you are not mutating the current states
-
-
+// structure
 const initialData = {
   users: {
     'username1': {
@@ -23,12 +20,20 @@ const initialData = {
 };
 
 const useTodoService = () => {
-  // to make it a property   ^, and we need {}
-  // newItem-> array
-  // setNewItem -> function
-  // new item is a state variable that you cannot update
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem('todoData');
+    return savedData ? JSON.parse(savedData) : initialData;
+  });
+
   const [currentUser, setCurrentUser] = useState(null);
+
+  // run this function every time the property in the array changes
+  // cannot render hooks conditionally
+  // so put them at the top
+
+  useEffect(() => {
+    localStorage.setItem('todoData', JSON.stringify(data));
+  }, [data]);
 
   const login = (username, password) => {
     if (data.users[username] && data.users[username].password === password) {
@@ -38,7 +43,6 @@ const useTodoService = () => {
     return false;
   };
 
-  // to check: console.log(todos)
   const logout = () => {
     setCurrentUser(null);
   };
@@ -52,7 +56,7 @@ const useTodoService = () => {
       users: {
         ...data.users,
         [username]: {
-          password: password, // Ensure password is hashed
+          password: password,
           todos: [],
         },
       },
@@ -61,30 +65,13 @@ const useTodoService = () => {
   };
 
   const addTodo = (title) => {
-
-    // if we have 2 settodos, it will only add one todolist
-    // because the second one will overwrite the first one
-    // todos => empty array
-    // add one item to the end
-    // at the second time, 
-    // it is still an empty array
-    // setTodos([
-    //   ...todos, //brand new arrays
-    //   {
-    //     id: crypto.randomUUID(),
-    //     title: newItem,
-    //     completed: false
-    //   },//adding one to the end of the array
-    // ])
-    
-        // to address the issue we need to pass a function to set state
     if (!currentUser) return;
     const newTodo = {
       id: Date.now(),
       title,
       completed: false,
     };
-    const userTodos = data.users[currentUser].todos.concat(newTodo);
+    const userTodos = [...data.users[currentUser].todos, newTodo];
     setData({
       ...data,
       users: {
